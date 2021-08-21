@@ -1,10 +1,17 @@
 import React from "react";
 
 class FilterItem extends React.Component {
+    
     render() {
         return(
             <li>
-                <a href={this.props.href} >{this.props.children}</a>
+                <a 
+                    href='#'
+                    className={this.props.isActive? "selected" : ""}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        this.props.onClick(this.props.item.id)}}
+                >{this.props.item.title}</a>
             </li>
         )
     }

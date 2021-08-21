@@ -17,6 +17,9 @@ class Header extends Component {
     
     onKeyPressHandler = (e) => {
         if(e.key === "Enter") {
+            if (this.state.value.trim().length === 0) {
+                return alert('don\'t enter empty value')
+            }
             this.props.createTodo(this.state.value);
             this.setState({value: ""});
         }

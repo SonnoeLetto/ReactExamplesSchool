@@ -1,17 +1,36 @@
 import React from 'react'
 import FilterItem from "./FilterItem";
+import { Filter } from '../../utils/Enums';
 
 class BottomBar extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.filterConfig = [
+            {id: Filter.all, title: "All"},
+            {id: Filter.active, title: "Active"},
+            {id: Filter.completed, title: "Complited"},
+        ]
+    }
+
     render() {
         return (
             <footer className="footer" style={{display: "block"}}>
-            <span className="todo-count"><strong>3</strong> items left</span>
+            <span className="todo-count"><strong>{this.props.todos.filter(item => !item.completed).length}</strong> items left</span>
             <ul className="filters">
-                <FilterItem href={'href="#/"'} className={'active'}>Active</FilterItem>
-                <FilterItem href={'#/active'}>All</FilterItem>
-                <FilterItem href={'#/completed'}>Completed</FilterItem>
+                {
+                    this.filterConfig.map(filterItem => (
+                        <FilterItem 
+                            key={filterItem.id} 
+                            item={filterItem} 
+                            isActive={this.props.activeFilter === filterItem.id}
+                            onClick={this.props.updateFilter}
+                        />)
+                    )
+                }
+
             </ul>
-            <button className="clear-completed" style={{display:"none"}}></button>
+            <button onClick={this.props.clearCompleted} className="clear-completed" style={{ display: this.props.todos.some(item => item.completed) === true  ? "block" : "none"}}>Clear completed</button>
             </footer>
         )
     }

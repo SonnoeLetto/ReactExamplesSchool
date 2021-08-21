@@ -1,9 +1,20 @@
 import React from "react";
 import TodoItem from "./TodoItem";
+import {Filter} from "../../utils/Enums";
 
 class TodoList extends React.Component {
-    render() {
 
+    filterToDo = () => {
+        switch(this.props.activeFilter) {
+            case Filter.active:
+                return this.props.todos.filter(item => !item.completed);
+            case Filter.completed:
+                return this.props.todos.filter(item => item.completed);
+            default:
+                return this.props.todos;
+        }
+    }
+    render() {
         return(
             <section className="main" style={{display: "block"}}>
 				<input 
@@ -16,9 +27,16 @@ class TodoList extends React.Component {
 				<ul className="todo-list">
                     {
                         
-                        this.props.todos.map(
+                        this.filterToDo().map(
                             item =>
-                            <TodoItem key={item.id} item={item} toggleTodo={this.props.toggleTodo} removeToDo={this.props.removeToDo} />
+                            <TodoItem
+                                key={item.id}
+                                item={item}
+                                toggleTodo={this.props.toggleTodo}
+                                removeToDo={this.props.removeToDo}
+                                    updateTitle={this.props.updateTitle}
+
+                            />
                         )
                         
                     }
